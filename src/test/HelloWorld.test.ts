@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import { Lazyload } from "vant"
 import HelloWorld from '@/components/HelloWorld.vue'
 
-test('mount component', async () => {
+test('hello world mount', async () => {
   expect(HelloWorld).toBeTruthy()
 
   const wrapper = mount(HelloWorld, {
