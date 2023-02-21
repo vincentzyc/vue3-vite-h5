@@ -1,16 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`mount component 1`] = `
-"<div>4 x 2 = 8</div>
-<button type=\\"button\\" class=\\"van-button van-button--primary van-button--normal\\">
-  <div class=\\"van-button__content\\">
-    <!----><span class=\\"van-button__text\\">x1</span>
-    <!---->
-  </div>
-</button>"
-`;
-
-exports[`mount hello world component 1`] = `
+exports[`hello world mount 1`] = `
 "<div>4 x 2 = 8</div>
 <button type=\\"button\\" class=\\"van-button van-button--primary van-button--normal\\">
   <div class=\\"van-button__content\\">
