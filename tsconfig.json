@@ -7,7 +7,6 @@
     "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
-    "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
@@ -21,6 +20,7 @@
       ]
     },
     "skipLibCheck": true,
+    "noEmit": true,
     "types": [
       "vitest/globals"
     ]
