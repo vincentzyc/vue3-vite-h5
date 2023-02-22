@@ -1,4 +1,4 @@
-import { getType, isBoolean, isObject, isArray, isString } from '../../validate/dataType'
+import { getType, isBoolean, isObject, isArray, isString } from '../../validate/data-type'
 
 test('getType', () => {
   const obj = {}, arr = ['1'], num = 1, str = "1", bool = false, isNull = null, isUndefined = undefined;
