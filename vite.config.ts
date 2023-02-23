@@ -14,9 +14,7 @@ export default defineConfig({
     port: 3100
   },
   plugins: [
-    vue({
-      reactivityTransform: true
-    }),
+    vue(),
     AutoImport({
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
