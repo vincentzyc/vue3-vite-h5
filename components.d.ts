@@ -7,7 +7,22 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Agreement: typeof import('./src/components/Agreement/Agreement.vue')['default']
+    AgreementPopup: typeof import('./src/components/AgreementPopup/AgreementPopup.vue')['default']
+    BaseForm: typeof import('./src/components/BaseForm/BaseForm.vue')['default']
+    CityPicker: typeof import('./src/components/CityPicker/CityPicker.vue')['default']
+    CountDown: typeof import('./src/components/CountDown/CountDown.vue')['default']
+    FormAddress: typeof import('./src/components/FormItem/FormAddress.vue')['default']
+    FormCity: typeof import('./src/components/FormItem/FormCity.vue')['default']
+    FormIDCard: typeof import('./src/components/FormItem/FormIDCard.vue')['default']
+    FormName: typeof import('./src/components/FormItem/FormName.vue')['default']
+    FormPhone: typeof import('./src/components/FormItem/FormPhone.vue')['default']
+    HelloWorld: typeof import('./src/components/HelloWorld/HelloWorld.vue')['default']
+    MarqueeSingle: typeof import('./src/components/MarqueeSingle/MarqueeSingle.vue')['default']
     VanButton: typeof import('vant/es')['Button']
+    VanCheckbox: typeof import('vant/es')['Checkbox']
+    VanCountDown: typeof import('vant/es')['CountDown']
+    VanPicker: typeof import('vant/es')['Picker']
+    VanPopup: typeof import('vant/es')['Popup']
   }
 }
