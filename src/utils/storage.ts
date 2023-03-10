@@ -6,7 +6,7 @@ export function setSessionStorage(key: string, value: any): void {
 export function getSessionStorage(key: string): any {
   let str: string | null;
   str = window.sessionStorage.getItem(key);
-  if (!str) return "";
+  if (!str) return '';
   try {
     return window.JSON.parse(str);
   } catch (error) {
@@ -23,7 +23,7 @@ export function setLocalStorage(key: string, value: any): void {
 export function getLocalStorage(key: string): any {
   let str: string | null;
   str = window.localStorage.getItem(key);
-  if (!str) return "";
+  if (!str) return '';
   try {
     return window.JSON.parse(str);
   } catch (error) {

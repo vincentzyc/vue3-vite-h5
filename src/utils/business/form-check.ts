@@ -3,18 +3,21 @@ function isIDCardNum(num: string) {
 
   num = num.toUpperCase();
   //身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X。
-  if (!(/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(num))) {
+  if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(num)) {
     return '输入的身份证号长度不对，或者号码不符合规定！';
   }
   //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
   //下面分别分析出生日期和校验位
   const re = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/);
-  const arrSplit = num.match(re)
-  let bGoodDay
+  const arrSplit = num.match(re);
+  let bGoodDay;
   if (arrSplit) {
     //检查生日日期是否正确
-    const dtmBirth = new Date(arrSplit[2] + "/" + arrSplit[3] + "/" + arrSplit[4]);
-    bGoodDay = (dtmBirth.getFullYear() == Number(arrSplit[2])) && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3])) && (dtmBirth.getDate() == Number(arrSplit[4]));
+    const dtmBirth = new Date(arrSplit[2] + '/' + arrSplit[3] + '/' + arrSplit[4]);
+    bGoodDay =
+      dtmBirth.getFullYear() == Number(arrSplit[2]) &&
+      dtmBirth.getMonth() + 1 == Number(arrSplit[3]) &&
+      dtmBirth.getDate() == Number(arrSplit[4]);
   }
 
   if (!bGoodDay) {
@@ -59,7 +62,7 @@ function validateIDCard(v: string) {
   //   if (month === birMonth && day > birDay) return '年龄需小于等于51周岁才可办理';
   // }
 
-  return true
+  return true;
 }
 
 const Check = {
@@ -67,16 +70,16 @@ const Check = {
     if (!value) return '请输入领卡姓名';
     if (/^[\u4e00-\u9fa5\\·]{2,20}$/.test(value)) return true;
     if (value.length < 2 || value.length > 20) return '姓名长度不能小于2或超过20';
-    return '姓名必须为汉字'
+    return '姓名必须为汉字';
   },
   checkPhone(value: string) {
     if (!value) return '请输入联系电话';
     if (/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value)) return true;
-    return '请输入正确的手机号码'
+    return '请输入正确的手机号码';
   },
   checkIDCard(value: string) {
     if (!value) return '请输入身份证号';
-    return validateIDCard(value)
+    return validateIDCard(value);
   },
   checkAddress(value: string) {
     if (!value) return '请输入详细地址';
@@ -91,6 +94,6 @@ const Check = {
   city(value: string) {
     if (!value) return '请选择收货城市';
     return true;
-  }
-}
-export default Check
+  },
+};
+export default Check;
