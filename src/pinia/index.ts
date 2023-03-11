@@ -1,5 +1,5 @@
 import { PageIdLocation } from '@/api/types/common';
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useMainStore = defineStore('main', {
   state: () => ({
@@ -8,11 +8,11 @@ export const useMainStore = defineStore('main', {
     cjData: null as PageIdLocation | null,
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: state => state.counter * 2,
     doubleCountPlusOne(): number {
-      return this.doubleCount * 2 + 1
+      return this.doubleCount * 2 + 1;
     },
-    locationCity: state => [state.cjData?.province || '', state.cjData?.city || '']
+    locationCity: state => [state.cjData?.province || '', state.cjData?.city || ''],
   },
   actions: {
     setPid(payload: string) {
@@ -22,7 +22,7 @@ export const useMainStore = defineStore('main', {
       this.cjData = payload;
     },
     reset() {
-      this.counter = 0
+      this.counter = 0;
     },
   },
-})
+});
