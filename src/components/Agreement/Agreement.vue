@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { reportMatomo } from "@/utils/report";
+import { reportMatomo } from '@/utils/report';
 
 const props = defineProps<{
   title: string;
@@ -24,22 +24,22 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-  (e: "update:checked", bool: boolean): void;
+  (e: 'update:checked', bool: boolean): void;
 }>();
 
 const isChecked = computed({
   get: () => props.checked,
-  set: v => emits("update:checked", v),
+  set: v => emits('update:checked', v),
 });
 
 let showPopup = ref(false),
-  curText = ref("");
+  curText = ref('');
 
 function openAgreement(title: string, text: string) {
   showPopup.value = true;
   curText.value = text;
 }
 function handleClick() {
-  props.checked ? reportMatomo("勾选协议") : reportMatomo("取消勾选协议");
+  props.checked ? reportMatomo('勾选协议') : reportMatomo('取消勾选协议');
 }
 </script>
