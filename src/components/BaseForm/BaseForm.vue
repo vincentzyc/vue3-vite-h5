@@ -29,27 +29,27 @@
 </template>
 
 <script lang="ts" setup>
-import Check from "@/utils/business/form-check";
-import { useMainStore } from "@/pinia";
-import { showToast } from "vant";
-import { closeLoading, openLoading } from "@/utils/loading";
-import { CommonApi } from "@/api";
-import { checkOut } from "@/composition/business/useVerifyData";
-import { reportMatomo } from "@/utils/report";
-import "./style.less";
+import Check from '@/utils/business/form-check';
+import { useMainStore } from '@/pinia';
+import { showToast } from 'vant';
+import { closeLoading, openLoading } from '@/utils/loading';
+import { CommonApi } from '@/api';
+import { checkOut } from '@/composition/business/useVerifyData';
+import { reportMatomo } from '@/utils/report';
+import './style.less';
 
-const FormCity = defineAsyncComponent(() => import("@/components/FormItem/FormCity.vue"));
+const FormCity = defineAsyncComponent(() => import('@/components/FormItem/FormCity.vue'));
 
-const toutiaoDefaultLink = "https://h5.lipush.com/h5/index.html?id=2021080216415100047"; // M001
+const toutiaoDefaultLink = 'https://h5.lipush.com/h5/index.html?id=2021080216415100047'; // M001
 
-const gdtDefaultLink = "https://h5.lipush.com/h5/index.html?id=3804505262428528861"; // M002
+const gdtDefaultLink = 'https://h5.lipush.com/h5/index.html?id=3804505262428528861'; // M002
 
 defineProps<{
   animteBtn?: boolean;
 }>();
 
 const emits = defineEmits<{
-  (e: "submit"): void;
+  (e: 'submit'): void;
 }>();
 
 const mainStore = useMainStore();
@@ -57,28 +57,28 @@ const mainStore = useMainStore();
 const formData = reactive({
   addressArr: [],
   showForm: false,
-  custName: "",
-  city: "",
-  district: "",
-  province: "",
-  address: "",
-  contactNumber: "",
-  idCardNo: "",
+  custName: '',
+  city: '',
+  district: '',
+  province: '',
+  address: '',
+  contactNumber: '',
+  idCardNo: '',
 });
 
 let checked = ref(true),
   agrList = ref([
     {
-      title: "《个人信息保护政策》",
-      text: "https://h5.lipush.com/h5/index.html?id=5523261663728019648",
+      title: '《个人信息保护政策》',
+      text: 'https://h5.lipush.com/h5/index.html?id=5523261663728019648',
     },
     {
-      title: "《入网许可协议》",
-      text: "https://h5.lipush.com/h5/index.html?id=4554931263728179465",
+      title: '《入网许可协议》',
+      text: 'https://h5.lipush.com/h5/index.html?id=4554931263728179465',
     },
     {
-      title: "《单独同意书》",
-      text: "https://h5.lipush.com/h5/index.html?id=7883210563728253535",
+      title: '《单独同意书》',
+      text: 'https://h5.lipush.com/h5/index.html?id=7883210563728253535',
     },
   ]);
 
@@ -110,20 +110,20 @@ const submitOrder = async () => {
   }
   checked.value = true;
 
-  openLoading("正在提交");
+  openLoading('正在提交');
   const params = {
-    url: window.location.href || "",
-    pageId: mainStore.cjData?.pageId || "",
-    pid: mainStore.pid || "",
-    productCode: mainStore.cjData?.productCode || "",
+    url: window.location.href || '',
+    pageId: mainStore.cjData?.pageId || '',
+    pid: mainStore.pid || '',
+    productCode: mainStore.cjData?.productCode || '',
     ...formData,
   };
-  reportMatomo("点击提交按钮");
-  emits("submit");
+  reportMatomo('点击提交按钮');
+  emits('submit');
   // 调接口提交
   let res = await CommonApi.submitForm<Record<string, any>>(params);
-  reportMatomo("提交接口返回", JSON.stringify(res));
-  if (res.responseCode === "0") {
+  reportMatomo('提交接口返回', JSON.stringify(res));
+  if (res.responseCode === '0') {
     successCallback({ resData: res, mediaCode: mainStore.cjData?.mediaCode });
   } else {
     const newParam = { pid: params.pid, url: window.location.href };
@@ -135,12 +135,12 @@ const submitOrder = async () => {
 };
 
 async function successCallback(resData: Record<string, any>) {
-  let realLink = "";
+  let realLink = '';
   setTimeout(() => {
     closeLoading();
     if (resData?.url) {
       realLink = resData.url;
-    } else if (resData.mediaCode === "M002") {
+    } else if (resData.mediaCode === 'M002') {
       realLink = gdtDefaultLink;
     } else {
       realLink = toutiaoDefaultLink;
