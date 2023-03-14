@@ -8,18 +8,18 @@
 </template>
 
 <script setup lang="ts">
-import "./style.less";
+import './style.less';
 const props = defineProps<{
   show: boolean;
   text: string;
 }>();
 const emits = defineEmits<{
-  (e: "update:show", bool: boolean): void;
+  (e: 'update:show', bool: boolean): void;
 }>();
 
 let isShow = computed({
   get: () => props.show,
-  set: v => emits("update:show", v),
+  set: v => emits('update:show', v),
 });
 
 function close() {
