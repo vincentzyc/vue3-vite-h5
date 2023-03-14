@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import CITY from "./city.json";
-import type { PickerCancelEventParams, PickerConfirmEventParams } from "vant";
+import CITY from './city.json';
+import type { PickerCancelEventParams, PickerConfirmEventParams } from 'vant';
 
 interface Props {
   show: boolean;
@@ -34,27 +34,27 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   show: false,
   level: 3,
-  locationCity: () => [""],
+  locationCity: () => [''],
 });
 
 let isShow = computed({
   get: () => props.show,
-  set: v => emits("update:show", v),
+  set: v => emits('update:show', v),
 });
 
 const emits = defineEmits<{
-  (e: "update:show", bool: boolean): void;
-  (e: "selected", belong: string[]): void;
+  (e: 'update:show', bool: boolean): void;
+  (e: 'selected', belong: string[]): void;
 }>();
 
 const customFieldName = {
-  text: "n",
-  value: "n",
-  children: "c",
+  text: 'n',
+  value: 'n',
+  children: 'c',
 };
 
 let columns = ref<any[]>([]);
-let selectCity = ref([""]);
+let selectCity = ref(['']);
 
 function initCity() {
   if (props.level == 2) return (columns.value = CITY.map(l1 => ({ n: l1.n, c: l1.c.map(l2 => ({ n: l2.n })) })));
@@ -72,7 +72,7 @@ function cancel(v: PickerCancelEventParams) {
 }
 
 function closedPopup() {
-  console.log("关闭弹窗");
-  emits("selected", selectCity.value);
+  console.log('关闭弹窗');
+  emits('selected', selectCity.value);
 }
 </script>
