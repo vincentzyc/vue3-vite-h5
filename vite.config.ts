@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue';
 import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
+import legacy from '@vitejs/plugin-legacy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,6 +13,16 @@ export default defineConfig({
   server: {
     host: true,
     port: 3100,
+  },
+  build: {
+    minify: 'terser',
+    // 清除console和debugger
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
   },
   plugins: [
     vue(),
@@ -26,6 +37,9 @@ export default defineConfig({
     }),
     Components({
       resolvers: [VantResolver()],
+    }),
+    legacy({
+      targets: ['defaults', 'not IE 11'],
     }),
   ],
   test: {
