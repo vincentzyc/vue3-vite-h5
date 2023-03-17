@@ -55,3 +55,16 @@ export default defineConfig({
     },
   },
 });
+
+// const fs = require('fs');
+
+// // 读取package.json文件
+// const packageJson = JSON.parse(fs.readFileSync('./package.json'));
+
+// // 修改配置
+// packageJson.version = '1.0.1';
+// packageJson.author = 'John Doe';
+// packageJson.description = 'A sample project';
+
+// // 将修改后的配置写入package.json文件
+// fs.writeFileSync('./package.json', JSON.stringify(packageJson, null, 2));
