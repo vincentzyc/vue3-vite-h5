@@ -6,6 +6,7 @@ import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
 import legacy from '@vitejs/plugin-legacy';
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -40,6 +41,9 @@ export default defineConfig({
     }),
     legacy({
       targets: ['defaults', 'not IE 11'],
+    }),
+    createHtmlPlugin({
+      minify: true, // 压缩html
     }),
   ],
   test: {
