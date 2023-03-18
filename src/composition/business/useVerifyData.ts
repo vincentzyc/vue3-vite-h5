@@ -45,13 +45,6 @@ export const checkAddress = (v: string) => {
 };
 export const checkOut = (formData: Record<string, any>) => {
   //校验表单
-  // if (!formData.handleNo) {
-  //   reportMatomo(`前端校验不通过-请选择号码`)
-  //   const dom = document.getElementById('handleNo')
-  //   if (dom) scrollIntoView(dom)
-  //   return '请选择号码';
-  // }
-
   const checkedName = Check.checkName(formData.custName);
   if (checkedName !== true) {
     reportMatomo(`前端校验不通过-${checkedName}`);
