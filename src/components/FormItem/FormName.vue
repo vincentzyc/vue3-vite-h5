@@ -14,30 +14,43 @@
 </template>
 
 <script lang="ts">
-import { checkName } from '@/composition/business/useVerifyData'
+// import { checkName } from '@/composition/business/useVerifyData'
 
+import { showToast } from 'vant';
 export default defineComponent({
-  name: "FormName",
+  name: 'FormName',
   props: {
     modelValue: {
       required: true,
       type: String,
-    }
+    },
   },
   emits: ['update:modelValue'],
+  methods: {
+    checkedName(v: string) {
+      const checkRes = this.checkName(v);
+      if (checkRes === true) return true;
+      showToast(checkRes);
+    },
+    checkName(value: string) {
+      if (!value) return '请输入领卡姓名';
+      if (/^[\u4e00-\u9fa5\\·]{2,20}$/.test(value)) return true;
+      if (value.length < 2 || value.length > 20) return '姓名长度不能小于2或超过20';
+      return '姓名必须为汉字';
+    },
+  },
   setup(props, { emit }) {
     const model = computed<string>({
       get() {
         return props.modelValue;
       },
       set(val) {
-        emit("update:modelValue", val);
-      }
-    })
+        emit('update:modelValue', val);
+      },
+    });
     return {
       model,
-      checkName,
-    }
-  }
-})
+    };
+  },
+});
 </script>
