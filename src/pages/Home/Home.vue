@@ -22,9 +22,9 @@
 </template>
 
 <script setup lang="ts">
-import { expensesText } from "./static-data";
-import img3 from "@/assets/img/home/img3.jpg";
-import { getBaseData } from "@/composition/business/useGetPidData";
+import { expensesText } from './static-data';
+import img3 from '@/assets/img/home/img3.jpg';
+import { getBaseData } from '@/composition/business/useGetPidData';
 
 let show = ref(false);
 function showExpenses() {
