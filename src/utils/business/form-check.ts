@@ -1,4 +1,5 @@
 import { isValidIDCard } from '@/utils/validate/idcard';
+import { isMobile } from '@/utils/validate/mobile';
 
 const Check = {
   checkName(value: string) {
@@ -9,13 +10,13 @@ const Check = {
   },
   checkPhone(value: string) {
     if (!value) return '请输入联系电话';
-    if (/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value)) return true;
+    if (isMobile(value)) return true;
     return '请输入正确的手机号码';
   },
   checkIDCard(value: string) {
     if (!value) return '请输入身份证号';
-    if (isValidIDCard(value)) return '请输入正确的身份证号码';
-    return true;
+    if (isValidIDCard(value)) return true;
+    return '请输入正确的身份证号码';
   },
   checkAddress(value: string) {
     if (!value) return '请输入详细地址';
@@ -25,10 +26,6 @@ const Check = {
     const roadReg2 = /^[A-Za-z0-9]+$/gi;
     if (roadReg2.test(value)) return '地址信息不得纯为英文字母或数字哟';
     if (value.length < 4) return '地址不能太短哟';
-    return true;
-  },
-  city(value: string) {
-    if (!value) return '请选择收货城市';
     return true;
   },
 };
