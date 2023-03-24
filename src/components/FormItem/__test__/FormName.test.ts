@@ -52,7 +52,7 @@ describe('chatGPT FormName.vue', () => {
     ${''}           | ${'请输入领卡姓名'}
     ${'4'}          | ${'姓名长度不能小于2或超过20'}
     ${'张3'}        | ${'姓名必须为汉字'}
-    ${'王五111111'} | ${'姓名长度不能小于2或超过20'}
+    ${'王五111111'} | ${'姓名必须为汉字'}
     ${'李四二'}     | ${true}
   `('checkName returns $expected when input is $input', ({ input, expected }) => {
     const wrapper = shallowMount(FormName, {
