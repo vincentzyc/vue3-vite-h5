@@ -1,28 +1,4 @@
-import { isIDCardNum } from '@/utils/validate/idcard';
-
-function validateIDCard(v: string) {
-  //判断身份证号格式
-  if (isIDCardNum(v) !== true) return '请输入正确的身份证号码';
-  // const year = new Date().getFullYear();
-  // const month = new Date().getMonth() + 1;
-  // const day = new Date().getDate();
-  // const birYear = parseInt(v.substr(6, 4));
-  // const birMonth = parseInt(v.substr(10, 2));
-  // const birDay = parseInt(v.substr(12, 2));
-  // const age = year - birYear;
-
-  // if (age < 16) return '年龄需大于等于16周岁才可办理';
-  // if (age === 16) {
-  //   if (month < birMonth) return '年龄需大于等于16周岁才可办理';
-  //   if (month === birMonth && day < birDay) return '年龄需大于等于16周岁才可办理';
-  // }
-  // if (age > 51) return '年龄需小于等于51周岁才可办理';
-  // if (age === 51) {
-  //   if (month > birMonth) return '年龄需小于等于51周岁才可办理';
-  //   if (month === birMonth && day > birDay) return '年龄需小于等于51周岁才可办理';
-  // }
-  return true;
-}
+import { isValidIDCard } from '@/utils/validate/idcard';
 
 const Check = {
   checkName(value: string) {
@@ -38,7 +14,8 @@ const Check = {
   },
   checkIDCard(value: string) {
     if (!value) return '请输入身份证号';
-    return validateIDCard(value);
+    if (isValidIDCard(value)) return '请输入正确的身份证号码';
+    return true;
   },
   checkAddress(value: string) {
     if (!value) return '请输入详细地址';
