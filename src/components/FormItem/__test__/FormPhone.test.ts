@@ -25,12 +25,12 @@ test('mount FormPhone component', async () => {
 // 下面是chatGPT给的单测代码
 describe('FormPhone.vue', () => {
   it('renders input element', () => {
-    const wrapper = mount(FormPhone);
+    const wrapper = mount(FormPhone, { props: { modelValue: '' } });
     expect(wrapper.find('input').exists()).toBe(true);
   });
 
   it('emits update:modelValue event when input value changes', async () => {
-    const wrapper = mount(FormPhone);
+    const wrapper = mount(FormPhone, { props: { modelValue: '' } });
     const input = wrapper.find('input');
     await input.setValue('12345678901');
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
@@ -46,7 +46,7 @@ describe('FormPhone.vue', () => {
   });
 
   it('limits input value to 11 characters', async () => {
-    const wrapper = mount(FormPhone);
+    const wrapper = mount(FormPhone, { props: { modelValue: '' } });
     const input = wrapper.find('input');
     await input.setValue('12345678901');
     expect(input.element.value).toHaveLength(11);
