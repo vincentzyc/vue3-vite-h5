@@ -1,46 +1,132 @@
-/**
- * 校验身份证格式是否正确
- * @param num 身份证
- * @returns true-校验通过，string-校验不通过信息
- */
-export function isIDCardNum(num: string) {
-  if (num.length != 18) return '输入的身份证号长度不对，或者号码不符合规定！';
+interface AgeRange {
+  min: number;
+  max: number;
+}
 
-  num = num.toUpperCase();
-  //身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X。
-  if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(num)) {
-    return '输入的身份证号长度不对，或者号码不符合规定！';
-  }
-  //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
-  //下面分别分析出生日期和校验位
-  const re = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/);
-  const arrSplit = num.match(re);
-  let bGoodDay;
-  if (arrSplit) {
-    //检查生日日期是否正确
-    const dtmBirth = new Date(arrSplit[2] + '/' + arrSplit[3] + '/' + arrSplit[4]);
-    bGoodDay =
-      dtmBirth.getFullYear() == Number(arrSplit[2]) &&
-      dtmBirth.getMonth() + 1 == Number(arrSplit[3]) &&
-      dtmBirth.getDate() == Number(arrSplit[4]);
-  }
+type AreaCodes = { [index: string]: string };
 
-  if (!bGoodDay) {
-    return '输入的身份证号里出生日期不对！';
+// 地区编码表
+const areaCodes: AreaCodes = {
+  11: '北京',
+  12: '天津',
+  13: '河北',
+  14: '山西',
+  15: '内蒙古',
+  21: '辽宁',
+  22: '吉林',
+  23: '黑龙江',
+  31: '上海',
+  32: '江苏',
+  33: '浙江',
+  34: '安徽',
+  35: '福建',
+  36: '江西',
+  37: '山东',
+  41: '河南',
+  42: '湖北',
+  43: '湖南',
+  44: '广东',
+  45: '广西',
+  46: '海南',
+  50: '重庆',
+  51: '四川',
+  52: '贵州',
+  53: '云南',
+  54: '西藏',
+  61: '陕西',
+  62: '甘肃',
+  63: '青海',
+  64: '宁夏',
+  65: '新疆',
+  71: '台湾',
+  81: '香港',
+  82: '澳门',
+  91: '国外',
+};
+
+function isAreaCodeValid(areaCode: string, areaCodes: AreaCodes, allowedAreas?: string[]): boolean {
+  if (allowedAreas) {
+    return areaCodes.hasOwnProperty(areaCode) && allowedAreas.includes(areaCode);
   } else {
-    //检验18位身份证的校验码是否正确。
-    //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
-    const arrInt = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-    const arrCh = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
-    let nTemp = 0,
-      i;
-    for (i = 0; i < 17; i++) {
-      nTemp += parseFloat(num.slice(i, i + 1)) * arrInt[i];
-    }
-    const valnum = arrCh[nTemp % 11];
-    if (valnum != num.slice(17, 18)) {
-      return '18位身份证的校验码不正确！';
-    }
-    return true;
+    return areaCodes.hasOwnProperty(areaCode);
   }
 }
+
+function isBirthDateValid(year: number, month: number, day: number, ageRange?: AgeRange): boolean {
+  const birthDate = new Date(year, month, day);
+  const currentDate = new Date();
+
+  if (ageRange) {
+    const age =
+      currentDate.getFullYear() -
+      birthDate.getFullYear() -
+      (currentDate.getMonth() < birthDate.getMonth() ||
+      (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())
+        ? 1
+        : 0);
+
+    if (age < ageRange.min || age > ageRange.max) {
+      return false;
+    }
+  }
+
+  return birthDate.getFullYear() === year && birthDate.getMonth() === month && birthDate.getDate() === day;
+}
+
+function isCheckCodeValid(idNumber: string): boolean {
+  const weightCoefficient = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+  const checkCodeList = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
+
+  let sum = 0;
+  for (let i = 0; i < 17; i++) {
+    sum += parseInt(idNumber.charAt(i), 10) * weightCoefficient[i];
+  }
+
+  const checkCode = checkCodeList[sum % 11];
+  return checkCode === idNumber.charAt(17).toUpperCase();
+}
+
+/**
+ * 校验身份证格式是否正确
+ * @param idNumber 身份证
+ * @param ageRange 年龄
+ * @param allowedAreas 地区
+ * @returns true 或 false
+ */
+function isValidIDCard(idNumber: string, ageRange?: AgeRange, allowedAreas?: string[]): boolean {
+  const len = idNumber.length;
+  if (len !== 15 && len !== 18) {
+    return false;
+  }
+
+  const areaCode = idNumber.substring(0, 2);
+  if (!isAreaCodeValid(areaCode, areaCodes, allowedAreas)) {
+    return false;
+  }
+
+  const birthYear =
+    len === 15 ? 1900 + parseInt(idNumber.substring(6, 8), 10) : parseInt(idNumber.substring(6, 10), 10);
+  const birthMonth = parseInt(idNumber.substring(len === 15 ? 8 : 10, len === 15 ? 10 : 12), 10) - 1;
+  const birthDay = parseInt(idNumber.substring(len === 15 ? 10 : 12, len === 15 ? 12 : 14), 10);
+
+  if (!isBirthDateValid(birthYear, birthMonth, birthDay, ageRange)) {
+    return false;
+  }
+
+  if (len === 15) {
+    return true;
+  }
+
+  return isCheckCodeValid(idNumber);
+}
+
+export { isValidIDCard };
+// 使用示例
+// const testID1 = "44010619800101201X"; // 二代身份证
+// const testID2 = "440106800101201";    // 一代身份证
+
+// const ageRange: AgeRange = { min: 18, max: 60 }; // 校验年龄在 18 到 60 岁之间
+// const allowedAreas: string[] = ['11', '12'];    // 只允许北京和天津的地区编码
+
+// console.log(isValidIDCard(testID1, ageRange, allowedAreas)); // 输出：true 或 false
+// console.log(isValidIDCard(testID2, ageRange, allowedAreas)); // 输出：true 或 false
