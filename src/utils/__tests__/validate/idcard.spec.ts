@@ -1,31 +1,47 @@
-import { isIDCardNum } from '../../validate/idcard';
+import { isValidIDCard } from '../../validate/idcard';
 
-describe('身份证号验证函数测试', () => {
-  it('身份证号长度不对应该返回错误', () => {
-    const result = isIDCardNum('123456');
-    if (result !== '输入的身份证号长度不对，或者号码不符合规定！') {
-      throw new Error(`期望输出'输入的身份证号长度不对，或者号码不符合规定！'，实际输出${result}`);
-    }
+describe('isValidIDCard', () => {
+  it('应当对有效的15位身份证号码返回true', () => {
+    expect(isValidIDCard('110101891111123')).toBe(true);
   });
 
-  it('输入的身份证号里出生日期码不正确应该返回错误', () => {
-    const result = isIDCardNum('110105200006014114');
-    if (result !== '18位身份证的校验码不正确！') {
-      throw new Error(`期望输出'18位身份证的校验码不正确！'，实际输出${result}`);
-    }
+  it('应当对有效的18位身份证号码返回true', () => {
+    expect(isValidIDCard('362426197610014321')).toBe(true);
   });
 
-  it('18位身份证的校验码不正确应该返回错误', () => {
-    const result = isIDCardNum('110105200006010116');
-    if (result !== '18位身份证的校验码不正确！') {
-      throw new Error(`期望输出'18位身份证的校验码不正确！'，实际输出${result}`);
-    }
+  it('应当对有效的18位身份证号码最后一位为X返回true', () => {
+    expect(isValidIDCard('34052419800101001X')).toBe(true);
   });
 
-  it('正确的身份证号应该返回true', () => {
-    const result = isIDCardNum('110101199003078777');
-    if (result !== true) {
-      throw new Error(`期望输出true，实际输出${result}`);
-    }
+  it('应当对区域码不正确的身份证号码返回false', () => {
+    expect(isValidIDCard('990101198901010012')).toBe(false);
+  });
+
+  it('应当对出生日期超过范围的身份证号码返回false', () => {
+    expect(isValidIDCard('110101201001018984')).toBe(false);
+  });
+
+  it('应当对校验码不正确的身份证号码返回false', () => {
+    expect(isValidIDCard('110101198911111231')).toBe(false);
+  });
+
+  it('应当对指定允许的区域码正确的身份证号码返回true', () => {
+    expect(isValidIDCard('310101199003077472', undefined, ['31'])).toBe(true);
+  });
+
+  it('应当对指定禁止的区域码错误的身份证号码返回false', () => {
+    expect(isValidIDCard('410102199009106860', undefined, ['31'])).toBe(false);
+  });
+
+  it('应当对年龄范围内的身份证号码返回true', () => {
+    expect(isValidIDCard('110101201008016217', { min: 10, max: 25 })).toBe(true);
+  });
+
+  it('应当对年龄范围下限以下的身份证号码返回false', () => {
+    expect(isValidIDCard('110101200807075032', { min: 18, max: 25 })).toBe(false);
+  });
+
+  it('应当对年龄范围上限以上的身份证号码返回false', () => {
+    expect(isValidIDCard('110101199510030540', { min: 10, max: 15 })).toBe(false);
   });
 });
