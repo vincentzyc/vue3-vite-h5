@@ -3,7 +3,7 @@
     "Vue.volar",
     "Vue.vscode-typescript-vue-plugin",
     "antfu.vite",
-    "zixuanchen.vitest-explorer",
+    "vitest.explorer",
     "esbenp.prettier-vscode"
   ]
 }
